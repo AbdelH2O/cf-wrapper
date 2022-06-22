@@ -1,0 +1,29 @@
+{
+  "name": "cf-api",
+  "version": "0.0.1",
+  "description": "The definitive CF wrapper to be able to perform anything that can be done through the UI.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbdelH2O/cf-api.git"
+  },
+  "keywords": [
+    "cf",
+    "codeforces",
+    "api",
+    "wrapper",
+    "competitive-programming"
+  ],
+  "author": "https://github.com/AbdelH2O",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AbdelH2O/cf-api/issues"
+  },
+  "homepage": "https://github.com/AbdelH2O/cf-api#readme",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
