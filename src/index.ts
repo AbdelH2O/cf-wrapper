@@ -1,13 +1,12 @@
 import client from "./client";
 import qs from 'qs';
-import fs from 'fs';
 
 import {
     genFtaa,
     genBfaa,
 } from "./utils";
 
-class Cf {
+export default class Cf {
 
     static csrf: string = '';
     static ftaa: string = genFtaa();
@@ -54,15 +53,15 @@ class Cf {
         };
         await client(config)
             .then(function (response) {
-                if ( response.data.match(/handle = "([\s\S]+?)"/).length > 0 ) {
-                    console.log('Login success');
+                if ( response.data.match(/handle = "([\s\S]+?)"/) ) {
+                    // console.log('Login success');
                 } else {
-                    console.log('Login failed');
+                    // console.log('Login failed');
                     throw new Error('Login failed');
                 }
             })
             .catch(function (error) {
-                console.log(error);
+                // console.log(error);
                 return error;
             });
 
@@ -92,37 +91,83 @@ class Cf {
         };
         const submission: string = await client(config)
             .then(function (response) {
-                fs.writeFileSync('submit.html', response.data);                
                 if ( response.data.match(/<table class="status-frame-datatable">/) ) {
                     const submissionRegex: RegExp = /(?<=submissionId=")[\d]*?(?=">)/;
                     const submissionId: string = response.data.match(submissionRegex)[0];
-                    console.log('Submission success, submissionId: ' + submissionId);
+                    // console.log('Submission success, submissionId: ' + submissionId);
                     return submissionId;
                 } else {
-                    console.log('Submit failed');
+                    // console.log('Submit failed');
                     if ( response.data.match(/You have submitted exactly the same code before/) ) {
-                        console.log('You have submitted exactly the same code before');
+                        // console.log('You have submitted exactly the same code before');
                     }
                     throw new Error('Submit failed');
                 }
             })
             .catch(function (error) {
-                console.log(error);
+                // console.log(error);
                 return error;
             }
         );
         return submission;
     }
 
-    // getProblem(problemId: string): Promise<string> {
-    //     var config = {
-    //         method: 'get',
-    //         url: 'https://codeforces.com/contest/' + problemId,
+    async getContestList(gym: boolean): Promise<object[]> {
+        const config = {
+            method: 'get',
+            url: `https://codeforces.com/api/contest.list?gym=${gym}`,
+        };
+        const contestList: {
+            status: string,
+            result: object[],
+        } = await client(config)
+            .then(function (response) {
+                if(response.data.status === 'OK') {
+                    return response.data;
+                } else {
+                    // console.log('Get contest list failed');
+                    throw new Error('Get contest list failed');
+                }
+            })
+            .catch(function (error) {
+                // console.log('Get contest list failed');
+                throw new Error('Get contest list failed');
+            });
+        return contestList.result;
+    };
+
+    async getContestProblems(contestId: string): Promise<object> {
+        const config = {
+            method: 'get',
+            url: `https://codeforces.com/api/contest.standings?contestId=${contestId}&from=1&count=1`,
+        };
+        const contest: {
+            status: string,
+            result: {
+                contest: object,
+                problems: {
+                    contestId: number,
+                    index: string,
+                    name: string,
+                    points: number,
+                    rating: number,
+                    tags?: string[],
+                }[],
+                rows: object[],
+            },
+        } = await client(config)
+            .then(function (response) {
+                if(response.data.status === 'OK') {
+                    return response.data;
+                } else {
+                    // console.log('Get contest problems failed');
+                    throw new Error('Get contest problems failed');
+                }
+            })
+            .catch(function (error) {
+                // console.log('Get contest problems failed');
+                throw new Error('Get contest problems failed');
+            });
+        return contest.result.problems;
+    };
 }
-const main = async () => {
-    const cf = new Cf('username', 'password');
-    await cf.login();
-    const submission = await cf.submit('1020', 'A', '61', 'int main(void) {\n    cin >> a >> b;\n    cout << a + b;\n    return 0;\n}');
-    console.log(submission);
-}
-main();
