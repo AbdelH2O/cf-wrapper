@@ -1,7 +1,7 @@
 
 # The definitive CF js wrapper
 
-Cf-api is an attempt to programatically interact with codeforces as its current API lacks a lot of features.
+Cf-wrapper is an attempt to programatically interact with codeforces as its current API lacks a lot of features.
 
 Lots to add left, but slow and steady does the job.
 
