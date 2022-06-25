@@ -1,5 +1,5 @@
 {
-  "name": "cf-api",
+  "name": "cf-wrapper",
   "version": "0.0.1",
   "description": "The definitive CF wrapper to be able to perform anything that can be done through the UI.",
   "main": "src/index.ts",
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/AbdelH2O/cf-api#readme",
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^0.27.2",
+    "qs": "^6.10.5"
   }
 }
