@@ -12,11 +12,13 @@ class Cf {
     static csrf: string = '';
     static ftaa: string = genFtaa();
     static bfaa: string = genBfaa();
+    static isLoggedIn(): boolean {
+        return Cf.csrf.length > 0;
+    };
 
     constructor (public username: string, public password: string) {
         this.username = username;
         this.password = password;
-        
     }
 
     async getCsrf(): Promise<void> {
@@ -66,7 +68,7 @@ class Cf {
 
     }
 
-    async submit(contestId: string, problemId: string, language: string, source: string): Promise<void> {
+    async submit(contestId: string, problemId: string, language: string, source: string): Promise<string> {
         await this.getCsrf();
         const data = qs.stringify({
             csrf_token: Cf.csrf,
@@ -88,7 +90,28 @@ class Cf {
             },
             data : data,
         };
-
+        const submission: string = await client(config)
+            .then(function (response) {
+                fs.writeFileSync('submit.html', response.data);                
+                if ( response.data.match(/<table class="status-frame-datatable">/) ) {
+                    const submissionRegex: RegExp = /(?<=submissionId=")[\d]*?(?=">)/;
+                    const submissionId: string = response.data.match(submissionRegex)[0];
+                    console.log('Submission success, submissionId: ' + submissionId);
+                    return submissionId;
+                } else {
+                    console.log('Submit failed');
+                    if ( response.data.match(/You have submitted exactly the same code before/) ) {
+                        console.log('You have submitted exactly the same code before');
+                    }
+                    throw new Error('Submit failed');
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                return error;
+            }
+        );
+        return submission;
     }
 
     // getProblem(problemId: string): Promise<string> {
@@ -96,6 +119,10 @@ class Cf {
     //         method: 'get',
     //         url: 'https://codeforces.com/contest/' + problemId,
 }
-
-const cf = new Cf('username', 'password');
-cf.login();
+const main = async () => {
+    const cf = new Cf('username', 'password');
+    await cf.login();
+    const submission = await cf.submit('1020', 'A', '61', 'int main(void) {\n    cin >> a >> b;\n    cout << a + b;\n    return 0;\n}');
+    console.log(submission);
+}
+main();
