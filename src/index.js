@@ -1,10 +1,10 @@
-import client from "./client";
+import client from "./client.js";
 import qs from 'qs';
 
 import {
     genFtaa,
     genBfaa,
-} from "./utils";
+} from "./utils.js";
 
 export default class Cf {
 
