@@ -1,6 +1,6 @@
 {
   "name": "cf-wrapper",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "The definitive CF wrapper to be able to perform anything that can be done through the UI.",
   "main": "src/index.ts",
   "type": "module",
