@@ -12,12 +12,12 @@ Lots to add left, but slow and steady does the job.
 Install  with npm
 
 ```bash
-  npm install cf-api
+  npm install cf-wrapper
 ```
 ## Usage/Examples
 
 ```javascript
-import Cf from 'cf-api';
+import Cf from 'cf-wrapper';
 
 const client = new Cf('username', 'password');
 
