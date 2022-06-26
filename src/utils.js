@@ -1,4 +1,4 @@
-const randomString = (length: number) => {
+const randomString = (length) => {
   const chars = "0123456789abcdefghijklmnopqrstuvwxyz";
   let result = "";
   for (let i = length; i > 0; --i)

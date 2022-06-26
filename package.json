@@ -1,8 +1,8 @@
 {
   "name": "cf-wrapper",
-  "version": "0.0.23",
+  "version": "0.0.25",
   "description": "The definitive CF wrapper to be able to perform anything that can be done through the UI.",
-  "main": "src/index.ts",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

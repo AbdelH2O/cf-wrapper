@@ -8,19 +8,19 @@ import {
 
 export default class Cf {
 
-    static csrf: string = '';
-    static ftaa: string = genFtaa();
-    static bfaa: string = genBfaa();
-    static isLoggedIn(): boolean {
+    static csrf = '';
+    static ftaa = genFtaa();
+    static bfaa = genBfaa();
+    static isLoggedIn() {
         return Cf.csrf.length > 0;
     };
 
-    constructor (public username: string, public password: string) {
+    constructor (username, password) {
         this.username = username;
         this.password = password;
     }
 
-    async getCsrf(): Promise<void> {
+    async getCsrf() {
         const config = {
             method: 'get',
             url: 'https://codeforces.com',
@@ -31,7 +31,7 @@ export default class Cf {
         return;
     }
 
-    async login(): Promise<void> {
+    async login() {
         await this.getCsrf();
         const data = qs.stringify({
             csrf_token: Cf.csrf,
@@ -67,7 +67,7 @@ export default class Cf {
 
     }
 
-    async submit(contestId: string, problemId: string, language: string, source: string): Promise<string> {
+    async submit(contestId, problemId, language, source) {
         await this.getCsrf();
         const data = qs.stringify({
             csrf_token: Cf.csrf,
@@ -89,11 +89,11 @@ export default class Cf {
             },
             data : data,
         };
-        const submission: string = await client(config)
+        const submission = await client(config)
             .then(function (response) {
                 if ( response.data.match(/<table class="status-frame-datatable">/) ) {
-                    const submissionRegex: RegExp = /(?<=submissionId=")[\d]*?(?=">)/;
-                    const submissionId: string = response.data.match(submissionRegex)[0];
+                    const submissionRegex = /(?<=submissionId=")[\d]*?(?=">)/;
+                    const submissionId = response.data.match(submissionRegex)[0];
                     // console.log('Submission success, submissionId: ' + submissionId);
                     return submissionId;
                 } else {
@@ -112,15 +112,12 @@ export default class Cf {
         return submission;
     }
 
-    async getContestList(gym: boolean): Promise<object[]> {
+    async getContestList(gym) {
         const config = {
             method: 'get',
             url: `https://codeforces.com/api/contest.list?gym=${gym}`,
         };
-        const contestList: {
-            status: string,
-            result: object[],
-        } = await client(config)
+        const contestList = await client(config)
             .then(function (response) {
                 if(response.data.status === 'OK') {
                     return response.data;
@@ -136,26 +133,12 @@ export default class Cf {
         return contestList.result;
     };
 
-    async getContestProblems(contestId: string): Promise<object> {
+    async getContestProblems(contestId){
         const config = {
             method: 'get',
             url: `https://codeforces.com/api/contest.standings?contestId=${contestId}&from=1&count=1`,
         };
-        const contest: {
-            status: string,
-            result: {
-                contest: object,
-                problems: {
-                    contestId: number,
-                    index: string,
-                    name: string,
-                    points: number,
-                    rating: number,
-                    tags?: string[],
-                }[],
-                rows: object[],
-            },
-        } = await client(config)
+        const contest = await client(config)
             .then(function (response) {
                 if(response.data.status === 'OK') {
                     return response.data;
