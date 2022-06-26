@@ -29,5 +29,9 @@
     "axios-cookiejar-support": "^4.0.2",
     "qs": "^6.10.5",
     "tough-cookie": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/qs": "^6.9.7",
+    "@types/tough-cookie": "^4.0.2"
   }
 }
