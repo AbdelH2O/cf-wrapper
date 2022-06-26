@@ -1,6 +1,6 @@
 {
   "name": "cf-wrapper",
-  "version": "0.0.31",
+  "version": "0.0.33",
   "description": "The definitive CF wrapper to be able to perform anything that can be done through the UI.",
   "main": "src/index.js",
   "type": "module",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AbdelH2O/cf-api.git"
+    "url": "git+https://github.com/AbdelH2O/cf-wrapper.git"
   },
   "keywords": [
     "cf",
@@ -24,9 +24,9 @@
   "author": "https://github.com/AbdelH2O",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AbdelH2O/cf-api/issues"
+    "url": "https://github.com/AbdelH2O/cf-wrapper/issues"
   },
-  "homepage": "https://github.com/AbdelH2O/cf-api#readme",
+  "homepage": "https://github.com/AbdelH2O/cf-wrapper#readme",
   "dependencies": {
     "axios": "^0.27.2",
     "axios-cookiejar-support": "^4.0.2",

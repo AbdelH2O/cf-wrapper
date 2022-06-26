@@ -2,3 +2,4 @@ node_modules
 yarn.lock
 sensitive.txt
 *.html
+lib
