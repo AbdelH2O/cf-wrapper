@@ -1,9 +1,12 @@
 {
   "name": "cf-wrapper",
-  "version": "0.0.3",
+  "version": "0.0.31",
   "description": "The definitive CF wrapper to be able to perform anything that can be done through the UI.",
   "main": "src/index.js",
   "type": "module",
+  "files": [
+    "src/**/*"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -32,6 +35,10 @@
   },
   "devDependencies": {
     "@types/qs": "^6.9.7",
-    "@types/tough-cookie": "^4.0.2"
+    "@types/tough-cookie": "^4.0.2",
+    "prettier": "^2.7.1",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^4.7.4"
   }
 }
