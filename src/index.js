@@ -191,7 +191,3 @@ export default class Cf {
         return contest.result;
     };
 }
-
-
-
-
