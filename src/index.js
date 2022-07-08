@@ -146,21 +146,21 @@ export default class Cf {
                     // console.log('Get contest problems failed');
                     throw new Error('Get contest problems failed');
                 }
-            })
-            .catch(function (error) {
+            }).catch(function (error) {
                 // console.log('Get contest problems failed');
                 throw new Error('Get contest problems failed');
             });
         return contest.result.problems;
     };
 
-    async getRecentSubmittedProblemStatus(){
+    async getRecentSubmittedProblemStatus(username){
         const config = {
             method: 'get',
             url: `https://codeforces.com/api/user.status?handle=${username}&from=1&count=1`
         }
 
-        const submission = client(config).then(function(response){
+        const submissionStatus = await client(config).then(
+            function(response){
             if(response.data.status == 'OK'){
                 return response.data;
             }else{
@@ -168,9 +168,9 @@ export default class Cf {
             }
         }).catch(function(error){
             throw new Error('Not able to retrieve latest submission')
-        })
-        return submission.result;
-    }
+        });
+        return submissionStatus.result;
+    };
 
     async getContestStatus(contestId, from, count){
         const config = {
@@ -185,11 +185,11 @@ export default class Cf {
                 } else {
                     throw new Error('Not able to retrieve Contest Status');
                 }
-            }).catch(function (error){
+            }).catch(function(error){
                 throw new Error('Not able to retrieve Contest Status')
             });
         return contest.result;
-    }
+    };
 }
 
 
