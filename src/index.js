@@ -54,7 +54,7 @@ export default class Cf {
         await client(config)
             .then(function (response) {
                 if ( response.data.match(/handle = "([\s\S]+?)"/) ) {
-                 console.log('Login success');
+                 //console.log('Login success');
                 } else {
                     // console.log('Login failed');
                     throw new Error('Login failed');
