@@ -54,7 +54,7 @@ export default class Cf {
         await client(config)
             .then(function (response) {
                 if ( response.data.match(/handle = "([\s\S]+?)"/) ) {
-                    // console.log('Login success');
+                 //console.log('Login success');
                 } else {
                     // console.log('Login failed');
                     throw new Error('Login failed');
@@ -146,11 +146,48 @@ export default class Cf {
                     // console.log('Get contest problems failed');
                     throw new Error('Get contest problems failed');
                 }
-            })
-            .catch(function (error) {
+            }).catch(function (error) {
                 // console.log('Get contest problems failed');
                 throw new Error('Get contest problems failed');
             });
         return contest.result.problems;
+    };
+
+    async getRecentSubmittedProblemStatus(username){
+        const config = {
+            method: 'get',
+            url: `https://codeforces.com/api/user.status?handle=${username}&from=1&count=1`
+        }
+
+        const submissionStatus = await client(config).then(
+            function(response){
+            if(response.data.status == 'OK'){
+                return response.data;
+            }else{
+                throw new Error('Not able to retrieve latest submission')
+            }
+        }).catch(function(error){
+            throw new Error('Not able to retrieve latest submission')
+        });
+        return submissionStatus.result;
+    };
+
+    async getContestStatus(contestId, from, count){
+        const config = {
+            method: 'get',
+            url: `https://codeforces.com/api/contest.status?contestId=${contestId}&from=${from}&count=${count}`
+        }
+
+        const contest = await client(config).then(
+            function(response){
+                if(response.data.status == 'OK'){
+                    return response.data;
+                } else {
+                    throw new Error('Not able to retrieve Contest Status');
+                }
+            }).catch(function(error){
+                throw new Error('Not able to retrieve Contest Status')
+            });
+        return contest.result;
     };
 }
